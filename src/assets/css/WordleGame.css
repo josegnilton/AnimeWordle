@@ -4,25 +4,32 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-  }
-  
-  .game-form {
+}
+
+.game-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
-  
-  .game-input {
+}
+
+.game-input {
     max-width: 300px;
     margin-bottom: 10px;
-  }
-  
-  .game-button {
+}
+
+.game-button {
     margin: 10px;
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.reset-button {
+    margin-left: 10px;
   }
 
-  .footer-content {
-    text-align:center;
+  .ant-card-head-title {
+    text-align: center;
   }
-  

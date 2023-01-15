@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, Layout, Menu } from "antd";
+import { Input, Button, Layout, Menu, Card } from "antd";
 import "./assets/css/WordleGame.css"; // import the CSS file
 import "./App.css";
 
@@ -44,6 +44,8 @@ const WordleGame = () => {
   const [guess, setGuess] = useState("");
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const [message, setMessage] = useState("");
+  const [incorrect, setIncorrect] = useState(false);
+  const [correct, setCorrect] = useState(false);
 
   useEffect(() => {
     setWordToGuess(wordsList[Math.floor(Math.random() * wordsList.length)]);
@@ -52,29 +54,37 @@ const WordleGame = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (guess.toLowerCase() === wordToGuess.word.toLowerCase()) {
-      setMessage("Correct!");
+      setCorrect(true);
+      setIncorrect(false);
+      setMessage('');
     } else {
       setWrongAttempts(wrongAttempts + 1);
-      setMessage("Incorrect!");
+      setIncorrect(true);
+      setMessage("")
     }
     if (wrongAttempts === 1) {
       setMessage(
         `Dica: A data que o personagem apareceu pela primeira vez foi ${wordToGuess.date}`
       );
+      setIncorrect(false);
     }
     if (wrongAttempts === 4) {
       setMessage(
         `Dica: O personagem já falou essa frase. "${wordToGuess.quote}"`
       );
+      setIncorrect(false);
     }
     if (wrongAttempts === 6) {
       setMessage(`Dica: É do anime ${wordToGuess.anime}`);
+      setIncorrect(false);
     }
   };
 
   const handleReset = () => {
     setWrongAttempts(0);
     setMessage("");
+    setIncorrect(false);
+    setCorrect(false)
     setWordToGuess(wordsList[Math.floor(Math.random() * wordsList.length)]);
   };
 
@@ -83,33 +93,88 @@ const WordleGame = () => {
       <Header style={{ backgroundColor: "#3f3a3b" }}>
         <div className="logo">Guess the Anime Character</div>
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1">Game</Menu.Item>
-          <Menu.Item key="2">How to Play</Menu.Item>
-          <Menu.Item key="3">Creators</Menu.Item>
+          <Menu.Item
+            className="ant-menu-item-header"
+            key="1"
+            style={{ ":hover": { borderRadius: "50%" } }}
+          >
+            Game
+          </Menu.Item>
+          <Menu.Item
+            className="ant-menu-item-header"
+            key="2"
+            style={{ ":hover": { borderRadius: "50%" } }}
+          >
+            How to Play
+          </Menu.Item>
+          <Menu.Item
+            className="ant-menu-item-header"
+            key="3"
+            style={{ ":hover": { borderRadius: "50%" } }}
+          >
+            Creators
+          </Menu.Item>
         </Menu>
       </Header>
       <div style={{ backgroundColor: "#504a4b" }}>
         <div className="game-container">
           <form className="game-form" onSubmit={handleSubmit}>
             <Input
-              className="game-input"
               placeholder="Enter the character name"
               value={guess}
               onChange={(event) => setGuess(event.target.value)}
             />
-            <Button className="game-button" type="primary" htmlType="submit">
-              Submit
-            </Button>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Button className="game-button" type="primary" htmlType="submit">
+                Tentar
+              </Button>
+              <Button
+                className="game-button reset-button"
+                onClick={handleReset}
+              >
+                Reiniciar
+              </Button>
+            </div>
           </form>
-          <p>{message}</p>
-          <Button className="game-button" onClick={handleReset}>
-            Reset
-          </Button>
+          {message && (
+            <Card title="HINT" style={{ marginTop: 16 }}>
+              <p>{message}</p>
+            </Card>
+          )}
+
+          {incorrect && (
+            <Card
+              title="ERRROOU!"
+              style={{ marginTop: 16, backgroundColor: "red", color: "white" }}
+            >
+              <p>Você errou, tente novamente!</p>
+            </Card>
+          )}
+          {correct && (
+            <Card
+              title="ACERTOUU!"
+              style={{
+                marginTop: 16,
+                backgroundColor: "green",
+                color: "white",
+              }}
+            >
+              <p>
+                Você acertou, Clique em reiniciar se quiser jogar novamente!
+              </p>
+            </Card>
+          )}
         </div>
         <Footer>
           <div className="footer-content">
-            <p>Copyright © 2022 Wordle Game</p>
-            <p>All rights reserved.</p>
+            <p>Copyright © 2023 Animedle Game</p>
+            <p>Todos os direitos reservados, projeto feito para estudo.</p>
           </div>
         </Footer>
       </div>
