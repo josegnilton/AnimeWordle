@@ -1,0 +1,28 @@
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .game-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .game-input {
+    max-width: 300px;
+    margin-bottom: 10px;
+  }
+  
+  .game-button {
+    margin: 10px;
+  }
+
+  .footer-content {
+    text-align:center;
+  }
+  
